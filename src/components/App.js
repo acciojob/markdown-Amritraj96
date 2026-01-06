@@ -1,48 +1,30 @@
 import React, { useState, useEffect } from "react";
-import ReactMarkdown from "react-markdown";
-import '../styles/App.css';
+import MarkdownEditor from "./components/MarkdownEditor"; // Assuming structure based on your screenshot
+import "./styles/App.css"; // Adjust path based on your exact folder structure
 
 function App() {
-  const [markdown, setMarkdown] = useState(""); // Initialize state
-  const [loading, setLoading] = useState(true); // Initialize loading
+  // State Management
+  const [markdown, setMarkdown] = useState("# Hello World");
+  const [loading, setLoading] = useState(true);
 
-  const handleChange = (e) => {
-    setMarkdown(e.target.value);
-  };
-
+  // useEffect to simulate loading and ensure component is ready
   useEffect(() => {
-    // Set a timer to stop loading after 3 seconds
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000);
-    
-    // Cleanup function is good practice (though not strictly required for this specific test)
-    return () => clearTimeout(timer);
+    }, 1000); // Simulates a 1-second load time
+
+    return () => clearTimeout(timer); // Cleanup
   }, []);
 
+  // Loading Screen
   if (loading) {
-    // FIX 1: Added className="loading" as per requirements
-    return (
-      <div className="loading">
-        <h1>Loading...</h1>
-      </div>
-    );
+    return <div className="loading">Loading...</div>;
   }
 
+  // Render Editor
   return (
-    <div className="app">
-      {/* FIX 2: Added className="textarea" */}
-      {/* FIX 3: Added value={markdown} for two-way binding */}
-      <textarea 
-        className="textarea"
-        onChange={handleChange} 
-        value={markdown} 
-      />
-      
-      {/* FIX 4: Passed markdown as direct child (safest for all versions) */}
-      <ReactMarkdown className="preview">
-        {markdown}
-      </ReactMarkdown>
+    <div>
+      <MarkdownEditor markdown={markdown} setMarkdown={setMarkdown} />
     </div>
   );
 }
