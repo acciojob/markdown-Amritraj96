@@ -1,32 +1,73 @@
-import React, { useState, useEffect } from "react";
-import MarkdownEditor from "../components/MarkdownEditor"; // Assuming structure based on your screenshot
-import "../styles/App.css"; // Adjust path based on your exact folder structure
+import React,{useState,useEffect} from "react";
+import ReactMarkdown from "react-markdown";
+import '../styles/App.css'
 
-function App() {
-  // State Management
-  const [markdown, setMarkdown] = useState("# Hello World");
-  const [loading, setLoading] = useState(true);
+function App(){
 
-  // useEffect to simulate loading and ensure component is ready
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000); // Simulates a 1-second load time
+  const [markdown,setMarkdown] = useState("")
+  const [loading,setLoading] = useState(true)
 
-    return () => clearTimeout(timer); // Cleanup
-  }, []);
-
-  // Loading Screen
-  if (loading) {
-    return <div className="loading">Loading...</div>;
+  const handleChange = (e) =>{
+    setMarkdown(e.target.value)
+  }
+  
+  const changeLoadingVar = () => {
+    setLoading(false)
   }
 
-  // Render Editor
-  return (
-    <div>
-      <MarkdownEditor markdown={markdown} setMarkdown={setMarkdown} />
-    </div>
-  );
+  useEffect(() => {
+    setTimeout(changeLoadingVar,3000)
+  },[]);
+
+    if(loading){
+      return (<div><h1>Loading...</h1></div>)
+    }
+ 
+    return(
+      <div className="app">
+        <textarea onChange={handleChange}/>
+        <ReactMarkdown className="preview" children={markdown}/>
+      </div>
+    )
+}
+
+ class App extends React.Component{
+
+   constructor(props){
+     super(props)
+     this.state = {
+       markdown: "",
+       loading: true
+     }
+     this.handleChange = this.handleChange.bind(this);
+     this.changeLoadingVar = this.changeLoadingVar.bind(this);
+   }
+   handleChange(e){
+     this.setState({
+       markdown: e.target.value
+     })
+   }
+   changeLoadingVar(){
+     this.setState({
+       loading: false
+     })
+   }
+
+   componentDidMount(){
+     setTimeout(this.changeLoadingVar,3000)
+   }
+   render(){
+    if(this.state.loading){
+       return (<div><h1>Loading...</h1></div>)
+    }
+ 
+     return(
+       <div className="app">
+         <textarea onChange={this.handleChange}/>
+       <ReactMarkdown className="preview" children={this.state.markdown}/>
+       </div>
+    )
+  }
 }
 
 export default App;
