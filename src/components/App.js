@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import MarkdownEditor from "./components/MarkdownEditor"; // Assuming structure based on your screenshot
-import "./styles/App.css"; // Adjust path based on your exact folder structure
+import MarkdownEditor from "../components/MarkdownEditor"; // Assuming structure based on your screenshot
+import "../styles/App.css"; // Adjust path based on your exact folder structure
 
 function App() {
   // State Management
